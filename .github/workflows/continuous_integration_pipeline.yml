@@ -87,6 +87,30 @@ jobs:
         with:
           name: stm32-firmware-sample_application-${{ steps.version_handling.outputs.file_postfix }}
           path: stm32-firmware
+  build-docs:
+    needs: analyse-code
+    name: Build documentation
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3.1.0
+      - name: Install packages and dependencies
+        run: |
+          python3 -m pip install --upgrade pip==22.1.2
+          pip install -r scripts/requirements-doc.txt
+          mkdir -p docs/build/doxygen
+      - name: Doxygen c-code docstring extraction
+        uses: mattnotmitt/doxygen-action@v1.3.1
+      - name: Sphinx pyhton docstring extraction, merge with doxygen and html generation
+        run: |
+          cd docs
+          sphinx-build -W source build/html
+      - name: Upload documentation artifacts
+        if: github.ref == 'refs/heads/master' || github.event.inputs.release == 'y'
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: documentation
+          path: docs/build/html
   release:
     needs: [build-docs, build-sample_application]
     if: github.ref == 'refs/heads/master' || github.event.inputs.release == 'y'
