@@ -136,13 +136,3 @@ jobs:
       - name: Publish documentation
         run: |
           echo 'Where to release to? Github pages are public in our account'
-      - name: Release to Github
-        id: create_release
-        uses: ncipollo/release-action@v1.11.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: v${{ steps.determine_version.outputs.file_postfix }}
-          name: v${{ steps.determine_version.outputs.file_postfix }}
-          draft: false
-          prerelease: false
-          artifacts: "stm32-firmware/stm32-firmware-*/*"
