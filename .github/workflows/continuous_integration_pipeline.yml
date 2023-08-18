@@ -78,7 +78,6 @@ jobs:
       - name: Rename and copy files
         run: |
           mkdir stm32-firmware
-          cp applications/sample_application/targets/STM32/Debug/sample_application.bin stm32-firmware/sample_application-${{ steps.version_handling.outputs.file_postfix }}.bin
           cp applications/sample_application/targets/STM32/Debug/sample_application.elf stm32-firmware/sample_application-${{ steps.version_handling.outputs.file_postfix }}.elf
           cp applications/sample_application/targets/STM32/Debug/sample_application.list stm32-firmware/sample_application-${{ steps.version_handling.outputs.file_postfix }}.list
           cp applications/sample_application/targets/STM32/Debug/sample_application.map stm32-firmware/sample_application-${{ steps.version_handling.outputs.file_postfix }}.map
